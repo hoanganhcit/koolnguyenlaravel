@@ -165,9 +165,15 @@ $(document).ready(function() {
 	  Switch categories
 	-------------------------------------------------------------------*/
 
-    $('.filter-categories__item').on('click', function() {
-		$(this).addClass('filter-categories__item_current');
+    $('.filter-categories__item').on('click', function(event) {
+        event.preventDefault();
+
+        $(this).addClass('filter-categories__item_current');
         $(this).siblings().removeClass('filter-categories__item_current');
+
+        var selector = $(this).attr('data-filter') || '*';
+        $('.grid-news.filter-container').isotope({ filter: selector });
+        $(document).trigger('blog-filter:changed');
     });
 
 
@@ -332,6 +338,7 @@ $(document).ready(function() {
         itemSelector: '.item-portfolio',
         layoutMode: 'masonry',
 		transitionDuration: '0.8s',
+        filter: $('.filter__item.active').attr('data-filter') || '*',
         hiddenStyle: {
             opacity: 0,
             transform: 'scale(0.001)'
@@ -416,7 +423,7 @@ $(document).ready(function() {
 	$('.load-container').each(function() {
 		var $loadContent = $('.load-container');
 		 
-        var initShow = 8; //number of items loaded on init & onclick load more button
+        var initShow = 5; //number of items loaded on init & onclick load more button
         var counter = initShow;
         var iso = $loadContent.data('isotope');
 
@@ -443,6 +450,12 @@ $(document).ready(function() {
         //when load more button clicked
         $(".btn-load__wrap").click(function() {
             counter = counter + initShow;
+            loadMore(counter);
+        });
+
+        //when the active filter changes, reset back to the initial page size
+        $(document).on('blog-filter:changed', function() {
+            counter = initShow;
             loadMore(counter);
         });
     });
@@ -633,6 +646,33 @@ $(document).ready(function() {
         };
 
         var gallery = new PhotoSwipe($pswp, PhotoSwipeUI_Default, containerGallery, options);
+        gallery.init();
+    });
+
+    /* PhotoSwipe scoped to a single project's images inside its modal */
+    $(document).on('click', 'a.project-gallery-link', function(event) {
+        event.preventDefault();
+        var $links = $(this).closest('.project-modal-gallery').find('a.project-gallery-link'),
+        projectGallery = [];
+
+        $links.each(function() {
+            projectGallery.push({
+                src: $(this).attr('href'),
+                w: $(this).data('width'),
+                h: $(this).data('height'),
+                title: $(this).data('caption')
+            });
+        });
+
+        var $pswp = $('.pswp')[0],
+        options = {
+            index: $links.index(this),
+            bgOpacity: 1,
+            showHideOpacity: true,
+            history: false
+        };
+
+        var gallery = new PhotoSwipe($pswp, PhotoSwipeUI_Default, projectGallery, options);
         gallery.init();
     });
 

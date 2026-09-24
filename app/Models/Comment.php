@@ -1,0 +1,26 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Comment extends Model
+{
+    protected $fillable = ['post_id', 'name', 'email', 'content'];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
+    protected static function booted()
+    {
+        static::created(function (Comment $comment) {
+            $comment->post()->increment('comments_count');
+        });
+
+        static::deleted(function (Comment $comment) {
+            $comment->post()->decrement('comments_count');
+        });
+    }
+}

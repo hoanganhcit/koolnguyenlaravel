@@ -1,31 +1,32 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Admin | Kool Nguyen</title>
-    <style>
-        body { background: #111; color: #fff; font-family: Arial, sans-serif; margin: 0; }
-        header { align-items: center; border-bottom: 1px solid #333; display: flex; justify-content: space-between; padding: 22px 32px; }
-        main { margin: 0 auto; max-width: 1100px; padding: 64px 32px; }
-        h1 { font-size: 38px; font-weight: 400; }
-        .muted { color: #aaa; }
-        button { background: transparent; border: 1px solid #666; color: #fff; cursor: pointer; padding: 10px 16px; }
-        button:hover { border-color: #fff; }
-    </style>
-</head>
-<body>
-    <header>
-        <strong>Kool Nguyen Admin</strong>
-        <form method="POST" action="{{ route('admin.logout') }}">
-            @csrf
-            <button type="submit">Đăng xuất</button>
-        </form>
-    </header>
-    <main>
-        <p class="muted">Xin chào, {{ auth()->user()->name }}.</p>
-        <h1>Dashboard</h1>
-        <p>Khu vực quản trị đã được bảo vệ bằng tài khoản admin.</p>
-    </main>
-</body>
-</html>
+@extends('admin.layouts.app')
+
+@section('title', 'Tổng quan')
+@section('eyebrow', 'Workspace overview')
+
+@section('content')
+    <div class="page-heading">
+        <div>
+            <p class="eyebrow">Xin chào, {{ auth()->user()->name }}</p>
+            <h1>Tổng quan studio</h1>
+            <p class="lede">Một nơi gọn gàng để giữ các bộ ảnh, dự án và câu chuyện của bạn.</p>
+        </div>
+        <a class="button button--primary" href="{{ route('admin.projects.create') }}">+ Thêm dự án</a>
+    </div>
+
+    <div class="stats-grid">
+        <a class="stat-card" href="{{ route('admin.projects.index') }}"><span>Dự án đã chụp</span><strong>{{ $projectCount }}</strong><small>Quản lý portfolio</small></a>
+        <a class="stat-card" href="{{ route('admin.categories.index') }}"><span>Danh mục</span><strong>{{ $categoryCount }}</strong><small>Phân loại bộ ảnh</small></a>
+        <a class="stat-card" href="{{ route('admin.posts.index') }}"><span>Bài viết</span><strong>{{ $postCount }}</strong><small>Nhật ký và câu chuyện</small></a>
+    </div>
+
+    <section class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">Gần đây</p><h2>Dự án mới nhất</h2></div><a href="{{ route('admin.projects.index') }}">Xem tất cả →</a></div>
+        @if ($recentProjects->isEmpty())
+            <div class="empty-state">Chưa có dự án nào. Bắt đầu lưu lại một bộ ảnh đầu tiên.</div>
+        @else
+            <div class="table-wrap"><table><thead><tr><th>Tên dự án</th><th>Danh mục</th><th>Ngày chụp</th><th>Trạng thái</th></tr></thead><tbody>
+                @foreach ($recentProjects as $project)<tr><td><strong>{{ $project->title }}</strong><small>{{ $project->excerpt ?: 'Chưa có mô tả' }}</small></td><td>{{ optional($project->category)->name ?: 'Chưa phân loại' }}</td><td>{{ optional($project->shot_at)->format('d/m/Y') ?: '—' }}</td><td><span class="status status--{{ $project->status }}">{{ $project->status === 'published' ? 'Đã xuất bản' : 'Bản nháp' }}</span></td></tr>@endforeach
+            </tbody></table></div>
+        @endif
+    </section>
+@endsection

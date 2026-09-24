@@ -675,7 +675,7 @@ h1, h2, h3, h4, h5, h6 {
   padding-left: 10px;
   padding-top: 10px;
 }
-.block-quote_center {
+.block-quote_center, blockquote.ql-align-center {
   font-size: 1.715rem;
   line-height: 1.9;
   padding-top: 90px;
@@ -684,7 +684,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   text-align: center;
 }
-.block-quote_center::before {
+.block-quote_center::before, blockquote.ql-align-center::before {
   background-image: url(../images/icon-quote.svg);
   background-repeat: no-repeat;
   background-position: center;
@@ -698,16 +698,16 @@ h1, h2, h3, h4, h5, h6 {
   width: 60px;
 }
 @media only screen and (max-width: 580px) {
-  .block-quote_center {
+  .block-quote_center, blockquote.ql-align-center {
     font-size: 1.3rem;
     padding-top: 60px;
     line-height: 1.6;
   }
-  .block-quote_center::before {
+  .block-quote_center::before, blockquote.ql-align-center::before {
     width: 40px;
   }
 }
-.block-quote_center cite {
+.block-quote_center cite, blockquote.ql-align-center cite {
   font-size: 1rem;
   font-weight: 600;
   letter-spacing: .2rem;
@@ -4885,11 +4885,7 @@ img {
 .light-theme .footer {
   color: #1b1b1b;
 }
-.light-theme input[type='text'],
-.light-theme input[type='email'],
-.light-theme input[type='password'],
-.light-theme textarea,
-.light-theme textarea.form-control {
+.light-theme input[type='text'], .light-theme input[type='email'], .light-theme input[type='password'], .light-theme input[type='tel'], .light-theme textarea, .light-theme textarea.form-control {
   background-color: #f3f1ed;
   border-color: #1b1b1b;
   color: #1b1b1b;
@@ -4986,5 +4982,3 @@ img {
 .js-block {
   overflow: hidden;
 }
-
-/*# sourceMappingURL=style.css.map */
