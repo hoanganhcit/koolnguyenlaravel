@@ -196,137 +196,32 @@
 
         <div class="pricing-grid swiper-container">
             <div class="swiper-wrapper">
-                <!-- Item -->
-                <div class="swiper-slide pricing-grid__item pricing-grid__item_one"
-                    style="background-image: url({{ asset('public/FE/img/image_pricing_01.jpg') }})">
-                    <h4 class="title__h4" data-i18n="pricing.model">Model Photography.</h4>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.photos">Photos</div>
-                        <div class="pricing-options__included" data-i18n="pricing.package50">Package of 50</div>
+                @php($pricingImages = ['image_pricing_01.jpg', 'image_pricing_02.jpg', 'image_pricing_03.jpg', 'image_pricing_05.jpg'])
+                @forelse ($categories as $category)
+                    <div class="swiper-slide pricing-grid__item pricing-grid__item_{{ ($loop->index % 4) + 1 }}"
+                        style="background-image: url({{ $category->image ? asset('public/storage/' . $category->image) : asset('public/FE/img/' . $pricingImages[$loop->index % 4]) }})">
+                        <h4 class="title__h4">{{ $category->name }}</h4>
+                        <p class="pricing-description">{{ $category->description ?: 'Photography service' }}</p>
+                        @if (!empty($category->features))
+                            <ul class="pricing-features">
+                                @foreach ($category->features as $feature)
+                                    <li>{{ $feature }}</li>
+                                @endforeach
+                            </ul>
+                        @endif
+                        <footer class="pricing-footer">
+                            <div class="price {{ $category->price ? '' : 'price_small' }}">
+                                {{ $category->price ? '$' . number_format($category->price, 2) : 'Contact' }}
+                            </div>
+                            <button type="button" class="btn-link btn-link_right" data-booking-open
+                                data-booking-category-id="{{ $category->id }}"
+                                data-booking-package="{{ $category->name }}"
+                                data-booking-price="{{ $category->price ? '$' . number_format($category->price, 2) : 'Contact for pricing' }}">Booking</button>
+                        </footer>
                     </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.processing">Processing</div>
-                        <div class="pricing-options__included" data-i18n="pricing.retouch">Retouch</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.camera">Type of camera</div>
-                        <div class="pricing-options__included" data-i18n="pricing.semiProfessional">Semi-professional
-                        </div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.resolution">Resolution</div>
-                        <div class="pricing-options__included">12 MP</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.term">Term</div>
-                        <div class="pricing-options__included" data-i18n="pricing.14days">14 days</div>
-                    </div>
-                    <footer class="pricing-footer">
-                        <div class="price">$39</div>
-                        <button type="button" class="btn-link btn-link_right" data-booking-open
-                            data-booking-package="Model Photography" data-booking-price="$39">Booking</button>
-                    </footer>
-                </div>
-                <!-- /Item -->
-
-                <!-- Item -->
-                <div class="swiper-slide pricing-grid__item pricing-grid__item_two"
-                    style="background-image: url({{ asset('public/FE/img/image_pricing_02.jpg') }})">
-                    <h4 class="title__h4" data-i18n="pricing.events">Photography of events.</h4>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.photos">Photos</div>
-                        <div class="pricing-options__included" data-i18n="pricing.package150">Package of 150</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.processing">Processing</div>
-                        <div class="pricing-options__included" data-i18n="pricing.correction">Correction</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.camera">Type of camera</div>
-                        <div class="pricing-options__included" data-i18n="pricing.semiProfessional">Semi-professional
-                        </div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.resolution">Resolution</div>
-                        <div class="pricing-options__included">32 MP</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.term">Term</div>
-                        <div class="pricing-options__included" data-i18n="pricing.14to21days">14 - 21 days</div>
-                    </div>
-                    <footer class="pricing-footer">
-                        <div class="price">$59</div>
-                        <button type="button" class="btn-link btn-link_right" data-booking-open
-                            data-booking-package="Photography of events" data-booking-price="$59">Booking</button>
-                    </footer>
-                </div>
-                <!-- /Item -->
-
-                <!-- Item -->
-                <div class="swiper-slide pricing-grid__item pricing-grid__item_three"
-                    style="background-image: url({{ asset('public/FE/img/image_pricing_03.jpg') }})">
-                    <h4 class="title__h4" data-i18n="pricing.corporate">Corporate photography.</h4>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.photos">Photos</div>
-                        <div class="pricing-options__included" data-i18n="pricing.package500">Package of 500</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.processing">Processing</div>
-                        <div class="pricing-options__included" data-i18n="pricing.correctionRetouch">Correction, Retouch
-                        </div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.camera">Type of camera</div>
-                        <div class="pricing-options__included" data-i18n="pricing.professional">Professional</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.resolution">Resolution</div>
-                        <div class="pricing-options__included">48 MP</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.term">Term</div>
-                        <div class="pricing-options__included" data-i18n="pricing.30days">30 days</div>
-                    </div>
-                    <footer class="pricing-footer">
-                        <div class="price">$99</div>
-                        <button type="button" class="btn-link btn-link_right" data-booking-open
-                            data-booking-package="Corporate photography" data-booking-price="$99">Booking</button>
-                    </footer>
-                </div>
-                <!-- /Item -->
-
-                <!-- Item -->
-                <div class="swiper-slide pricing-grid__item pricing-grid__item_four"
-                    style="background-image: url({{ asset('public/FE/img/image_pricing_05.jpg') }})">
-                    <h4 class="title__h4" data-i18n="pricing.movies">Photography for movies.</h4>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.photos">Photos</div>
-                        <div class="pricing-options__included" data-i18n="pricing.unlimited">Unlimited</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.processing">Processing</div>
-                        <div class="pricing-options__included" data-i18n="pricing.allInstallation">All types of
-                            installation</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.camera">Type of camera</div>
-                        <div class="pricing-options__included" data-i18n="pricing.professional">Professional</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.resolution">Resolution</div>
-                        <div class="pricing-options__included">68 MP</div>
-                    </div>
-                    <div class="pricing-options">
-                        <div class="pricing-options__name" data-i18n="pricing.term">Term</div>
-                        <div class="pricing-options__included" data-i18n="pricing.individual">Individual</div>
-                    </div>
-                    <footer class="pricing-footer">
-                        <div class="price price_small" data-i18n="pricing.individual">Individual</div>
-                        <button type="button" class="btn-link btn-link_right" data-booking-open
-                            data-booking-package="Photography for movies" data-booking-price="Individual pricing">Booking</button>
-                    </footer>
-                </div>
-                <!-- /Item -->
+                @empty
+                    <p class="col-12">Chưa có danh mục chụp hình nào.</p>
+                @endforelse
             </div>
 
             <!-- Control -->
@@ -350,6 +245,7 @@
                 <div class="flash flash--error" data-booking-error hidden></div>
                 <form method="POST" action="{{ route('booking.store') }}" data-booking-form>
                     @csrf
+                    <input type="hidden" name="category_id" data-booking-category-id-input>
                     <input type="hidden" name="package" data-booking-package-input>
                     <div class="booking-popup__fields">
                         <input type="text" name="name" placeholder="Name *" required>
@@ -358,7 +254,10 @@
                         <input type="date" name="date" min="{{ now()->format('Y-m-d') }}" required aria-label="Preferred booking date">
                     </div>
                     <textarea name="message" rows="3" placeholder="Tell me about your project..."></textarea>
-                    <button type="submit" class="btn" data-booking-submit>Send booking request</button>
+                    <button type="submit" class="btn booking-submit" data-booking-submit>
+                        <span class="booking-submit__spinner" data-booking-spinner aria-hidden="true"></span>
+                        <span>Send booking request</span>
+                    </button>
                 </form>
             </div>
         </div>
@@ -368,14 +267,29 @@
 
 @push('styles')
     <style>
-        .booking-popup input[type="date"] {
-            cursor: pointer;
-            color-scheme: dark;
+        .booking-submit {
+            align-items: center;
+            display: inline-flex;
+            gap: 10px;
+            justify-content: center;
         }
 
-        .booking-popup input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1);
-            opacity: .9;
+        .booking-submit__spinner {
+            animation: booking-spin .8s linear infinite;
+            border: 2px solid rgba(255, 255, 255, .35);
+            border-radius: 50%;
+            border-top-color: #fff;
+            display: none;
+            height: 14px;
+            width: 14px;
+        }
+
+        .booking-submit.is-loading .booking-submit__spinner {
+            display: inline-block;
+        }
+
+        @keyframes booking-spin {
+            to { transform: rotate(360deg); }
         }
     </style>
 @endpush

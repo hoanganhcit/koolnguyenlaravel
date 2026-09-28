@@ -11,7 +11,11 @@ class BookingController extends Controller
     public function index()
     {
         return view('admin.bookings.index', [
-            'bookings' => Booking::latest()->paginate(20),
+            'bookings' => Booking::with('category')->latest()->paginate(10),
+            'pendingCount' => Booking::where('status', 'pending')->count(),
+            'completedCount' => Booking::where('status', 'completed')->count(),
+            'cancelledCount' => Booking::where('status', 'cancelled')->count(),
+            'revenue' => Booking::where('status', 'completed')->sum('price'),
         ]);
     }
 
@@ -20,6 +24,10 @@ class BookingController extends Controller
         $data = $request->validate([
             'status' => 'required|in:pending,confirmed,completed,cancelled',
         ]);
+
+        if (in_array($booking->status, ['completed', 'cancelled'], true)) {
+            return back()->withErrors('Booking đã kết thúc và không thể thay đổi trạng thái.');
+        }
 
         $booking->update($data);
 

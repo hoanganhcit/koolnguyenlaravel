@@ -4987,6 +4987,36 @@ img {
   margin-bottom: 4rem !important;
 }
 
+.pricing-description {
+    color: rgba(255, 255, 255, .8);
+    line-height: 1.5;
+    margin: 12px 0 18px;
+}
+
+.pricing-features {
+    color: rgba(255, 255, 255, .9);
+    line-height: 1.8;
+    list-style: none;
+    margin: 0 0 20px;
+    padding: 0;
+}
+.pricing-features li {
+    margin-bottom: 10px;
+}
+.pricing-features li::before {
+    content: '- ';
+    opacity: .6;
+}
+
+.booking-popup input[type="date"] {
+    cursor: pointer;
+    color-scheme: dark;
+}
+
+.booking-popup input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: .9;
+}
 /* Booking Popup */
 
 .booking-popup__content {

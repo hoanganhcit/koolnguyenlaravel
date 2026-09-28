@@ -14,8 +14,9 @@
             <thead>
                 <tr>
                     <th>Tên danh mục</th>
-                    <th>Slug</th>
+                    <th>Ảnh</th>
                     <th>Số dự án</th>
+                    <th>Giá booking</th>
                     <th>Trạng thái</th>
                     <th></th>
                 </tr>
@@ -25,24 +26,25 @@
                     <tr>
                         <td><strong>{{ $category->name }}</strong><small>{{ $category->description ?: 'Chưa có mô tả' }}</small>
                         </td>
-                        <td>{{ $category->slug }}</td>
+                        <td>@if ($category->image)<img src="{{ asset('public/storage/' . $category->image) }}" alt="{{ $category->name }}" style="height:40px;width:56px;object-fit:cover">@else — @endif</td>
                         <td>{{ $category->projects_count }}</td>
+                        <td>{{ $category->price ? '$' . number_format($category->price, 2) : 'Báo giá riêng' }}</td>
                         <td><span class="status">{{ $category->is_active ? 'Đang dùng' : 'Ẩn' }}</span></td>
                         <td>
-                            <a class="icon-action" href="{{ route('admin.categories.edit', $category) }}"
-                                title="Sửa danh mục" aria-label="Sửa danh mục">&#9998;</a>
+                            <a class="icon-action" href="{{ route('admin.categories.edit', $category) }}" title="Sửa danh mục"
+                                aria-label="Sửa danh mục">&#9998;</a>
                             <form class="inline-form" method="POST"
                                 action="{{ route('admin.categories.destroy', $category) }}">
                                 @csrf @method('DELETE')
-                                <button class="icon-action icon-action--danger" type="submit"
-                                    title="Xóa danh mục" aria-label="Xóa danh mục"
+                                <button class="icon-action icon-action--danger" type="submit" title="Xóa danh mục"
+                                    aria-label="Xóa danh mục"
                                     onclick="return confirm('Xóa danh mục này?')">&#128465;</button>
                             </form>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5">
+                        <td colspan="7">
                             <div class="empty-state">Chưa có danh mục nào.</div>
                         </td>
                     </tr>

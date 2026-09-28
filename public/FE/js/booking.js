@@ -4,11 +4,13 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!popup || !form) return;
 
     const packageInput = form.querySelector('[data-booking-package-input]');
+    const categoryInput = form.querySelector('[data-booking-category-id-input]');
     const packageLabel = popup.querySelector('[data-booking-package-label]');
     const priceLabel = popup.querySelector('[data-booking-price-label]');
     const error = popup.querySelector('[data-booking-error]');
     const success = popup.querySelector('[data-booking-success]');
     const submit = form.querySelector('[data-booking-submit]');
+    let selectedCategoryId = '';
     const dateInput = form.querySelector('input[type="date"]');
 
     if (dateInput && typeof dateInput.showPicker === 'function') {
@@ -20,6 +22,8 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('[data-booking-open]').forEach(function(button) {
         button.addEventListener('click', function() {
             packageInput.value = button.dataset.bookingPackage;
+            categoryInput.value = button.dataset.bookingCategoryId;
+            selectedCategoryId = button.dataset.bookingCategoryId;
             packageLabel.textContent = button.dataset.bookingPackage;
             priceLabel.textContent = button.dataset.bookingPrice;
             error.hidden = true;
@@ -52,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
         error.hidden = true;
         success.hidden = true;
         submit.disabled = true;
+        submit.classList.add('is-loading');
+        submit.setAttribute('aria-busy', 'true');
 
         try {
             const response = await fetch(form.action, {
@@ -69,6 +75,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             form.reset();
+            categoryInput.value = selectedCategoryId;
             packageInput.value = packageLabel.textContent;
             success.textContent = payload.message;
             success.hidden = false;
@@ -77,6 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
             error.hidden = false;
         } finally {
             submit.disabled = false;
+            submit.classList.remove('is-loading');
+            submit.removeAttribute('aria-busy');
         }
     });
 });

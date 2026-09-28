@@ -10,7 +10,7 @@
             <div class="col-md-6 col-lg-4">
                 <h5 class="title title__h6 text_uppercase" data-i18n="footer.contact">Get in touch</h5>
                 <ul class="footer__contacts list-unstyled">
-                    <li>E.: work@koolnguyen.vn</li>
+                    <li>E.: contact@koolnguyenphoto.com</li>
                     <li>T.: +84 (00) 123-45-67</li>
                 </ul>
             </div>

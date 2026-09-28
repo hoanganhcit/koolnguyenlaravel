@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -11,15 +12,8 @@ class BookingController extends Controller
 {
     public function store(Request $request)
     {
-        $packagePrices = [
-            'Model Photography' => 39,
-            'Photography of events' => 59,
-            'Corporate photography' => 99,
-            'Photography for movies' => null,
-        ];
-
         $data = $request->validate([
-            'package' => 'required|string|in:' . implode(',', array_keys($packagePrices)),
+            'category_id' => 'required|exists:categories,id',
             'name' => 'required|string|max:120',
             'email' => 'required|email|max:180',
             'phone' => 'required|string|max:40',
@@ -27,9 +21,13 @@ class BookingController extends Controller
             'message' => 'nullable|string|max:2000',
         ]);
 
+        $category = Category::where('is_active', true)->findOrFail($data['category_id']);
+        $data['package'] = $category->name;
+
         $booking = Booking::create([
             'package' => $data['package'],
-            'price' => $packagePrices[$data['package']],
+            'category_id' => $category->id,
+            'price' => $category->price,
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
@@ -40,7 +38,7 @@ class BookingController extends Controller
         $content = implode(PHP_EOL, [
             'New photography booking request',
             'Package: ' . $data['package'],
-            'Price: ' . ($packagePrices[$data['package']] ? '$' . $packagePrices[$data['package']] : 'Individual pricing'),
+            'Price: ' . ($category->price ? '$' . $category->price : 'Contact for pricing'),
             'Name: ' . $data['name'],
             'Email: ' . $data['email'],
             'Phone: ' . $data['phone'],
