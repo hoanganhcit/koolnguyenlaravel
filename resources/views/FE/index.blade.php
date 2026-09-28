@@ -15,7 +15,7 @@
                         ordinary moments.</h1>
                     <p class="hero__description" data-i18n="hero.description">I photograph quiet stories, natural light, and
                         the details that often go unseen. Start with the way I see the world.</p>
-                    <a class="btn hero__btn" href="#hello" data-i18n="hero.cta">Meet my perspective</a>
+                    <a class="btn hero__btn" href="#pricing" data-i18n="hero.cta">Booking Now</a>
                 </div>
             </div>
         </div>
@@ -181,7 +181,7 @@
     <!-- /Testimonials -->
 
     <!-- Pricing -->
-    <section class="section">
+    <section class="section" id="pricing">
         <div class="container">
             <div class="row">
                 <div class="col section__header-wrap">
@@ -223,7 +223,8 @@
                     </div>
                     <footer class="pricing-footer">
                         <div class="price">$39</div>
-                        <a href="#price" class="btn-link btn-link_right" data-i18n="pricing.explore">Explore</a>
+                        <button type="button" class="btn-link btn-link_right" data-booking-open
+                            data-booking-package="Model Photography" data-booking-price="$39">Booking</button>
                     </footer>
                 </div>
                 <!-- /Item -->
@@ -255,7 +256,8 @@
                     </div>
                     <footer class="pricing-footer">
                         <div class="price">$59</div>
-                        <a href="#price" class="btn-link btn-link_right" data-i18n="pricing.explore">Explore</a>
+                        <button type="button" class="btn-link btn-link_right" data-booking-open
+                            data-booking-package="Photography of events" data-booking-price="$59">Booking</button>
                     </footer>
                 </div>
                 <!-- /Item -->
@@ -287,7 +289,8 @@
                     </div>
                     <footer class="pricing-footer">
                         <div class="price">$99</div>
-                        <a href="#price" class="btn-link btn-link_right" data-i18n="pricing.explore">Explore</a>
+                        <button type="button" class="btn-link btn-link_right" data-booking-open
+                            data-booking-package="Corporate photography" data-booking-price="$99">Booking</button>
                     </footer>
                 </div>
                 <!-- /Item -->
@@ -319,7 +322,8 @@
                     </div>
                     <footer class="pricing-footer">
                         <div class="price price_small" data-i18n="pricing.individual">Individual</div>
-                        <a href="#price" class="btn-link btn-link_right" data-i18n="pricing.explore">Explore</a>
+                        <button type="button" class="btn-link btn-link_right" data-booking-open
+                            data-booking-package="Photography for movies" data-booking-price="Individual pricing">Booking</button>
                     </footer>
                 </div>
                 <!-- /Item -->
@@ -335,4 +339,47 @@
     </section>
     <!-- /Pricing -->
 
+    <div class="popup popup-overlay booking-popup" data-booking-popup aria-hidden="true">
+        <button type="button" class="popup__btn-close" data-booking-close aria-label="Close booking form">Close</button>
+        <div class="popup-inner">
+            <div class="booking-popup__content">
+                <h2 class="title__section title__h1">Book a shoot.</h2>
+                <p class="section__subtitle">Tell me about your project and preferred date.</p>
+                <p class="booking-popup__package">Selected package: <strong data-booking-package-label></strong> · <strong data-booking-price-label></strong></p>
+                <div class="flash flash--success" data-booking-success hidden></div>
+                <div class="flash flash--error" data-booking-error hidden></div>
+                <form method="POST" action="{{ route('booking.store') }}" data-booking-form>
+                    @csrf
+                    <input type="hidden" name="package" data-booking-package-input>
+                    <div class="booking-popup__fields">
+                        <input type="text" name="name" placeholder="Name *" required>
+                        <input type="email" name="email" placeholder="Email *" required>
+                        <input type="tel" name="phone" placeholder="Phone *" required>
+                        <input type="date" name="date" min="{{ now()->format('Y-m-d') }}" required aria-label="Preferred booking date">
+                    </div>
+                    <textarea name="message" rows="3" placeholder="Tell me about your project..."></textarea>
+                    <button type="submit" class="btn" data-booking-submit>Send booking request</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
+
+@push('styles')
+    <style>
+        .booking-popup input[type="date"] {
+            cursor: pointer;
+            color-scheme: dark;
+        }
+
+        .booking-popup input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            opacity: .9;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('public/FE/js/booking.js') }}"></script>
+@endpush

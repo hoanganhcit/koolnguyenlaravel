@@ -27,19 +27,23 @@
                         <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i><span>Tweet</span></a>
                         <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i><span>Google
                                 Plus</span></a>
-                        <a class="like-post" href="#"><i class="fa fa-heart"
-                                aria-hidden="true"></i><span>{{ $post->likes_count }}</span></a>
+                        <a class="like-post" href="#" data-like-post
+                            data-like-url="{{ route('blog.likes.store', $post->slug) }}"
+                            data-csrf-token="{{ csrf_token() }}" aria-label="Like bài viết">
+                            <i class="fa fa-heart" aria-hidden="true"></i><span data-like-count>{{ $post->likes_count }}</span>
+                        </a>
                     </div>
                 </footer>
             </article>
             <!-- Comments -->
             <div class="section-comments" id="comments">
-                <h3 class="title title__h5">{{ $post->comments->count() }} Comments</h3>
+                <h3 class="title title__h5"><span data-comment-count>{{ $post->comments->count() }}</span> Comments</h3>
 
-                @if (session('success'))
-                    <div class="flash flash--success">{{ session('success') }}</div>
-                @endif
+                <div class="flash flash--success" data-comment-success
+                    @if (!session('success')) hidden @endif>{{ session('success') }}</div>
+                <div class="flash flash--error" data-comment-error hidden></div>
 
+                <div data-comments-list>
                 @forelse ($post->comments as $comment)
                     <!-- Item Comment -->
                     <div class="media">
@@ -64,15 +68,13 @@
                     </div>
                     <!-- /Item Comment -->
                 @empty
-                    <p>Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ suy nghĩ của bạn.</p>
+                    <p data-comments-empty>Chưa có bình luận nào. Hãy là người đầu tiên chia sẻ suy nghĩ của bạn.</p>
                 @endforelse
+                </div>
 
                 <!-- Comment Form -->
-                <form class="comment-form" method="POST" action="{{ route('blog.comments.store', $post->slug) }}">
+                <form class="comment-form" method="POST" action="{{ route('blog.comments.store', $post->slug) }}" data-comment-form>
                     @csrf
-                    @if ($errors->any())
-                        <div class="flash flash--error">{{ $errors->first() }}</div>
-                    @endif
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -97,7 +99,7 @@
                                 <textarea class="form-control input" id="content" name="content" rows="3" required>{{ old('content') }}</textarea>
                             </div>
                             <div class="btn-block">
-                                <button type="submit" class="btn">Send Comment</button>
+                                <button type="submit" class="btn" data-comment-submit>Send Comment</button>
                             </div>
                         </div>
                     </div>
@@ -154,4 +156,9 @@
             color: #dc3545;
         }
     </style>
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('public/FE/js/comment.js') }}"></script>
+    <script src="{{ asset('public/FE/js/like.js') }}"></script>
 @endpush

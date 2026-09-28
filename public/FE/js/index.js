@@ -4,7 +4,7 @@ window.pageTranslations = {
         'hero.overhead': 'a personal approach to photography',
         'hero.title': 'Finding meaning<br />in ordinary moments.',
         'hero.description': 'I photograph quiet stories, natural light, and the details that often go unseen. Start with the way I see the world.',
-        'hero.cta': 'Meet my perspective',
+        'hero.cta': 'Booking Now',
         'hello.title': 'Hello.',
         'hello.quote': 'I believe photography is not simply about capturing an image. It is about observing life, finding meaning in ordinary moments, and preserving what is often unseen. I am drawn to simplicity, natural light, and honest emotions. For me, the most beautiful photographs are the ones that feel effortless, yet remain meaningful over time.',
         'works.title': 'My Works.',

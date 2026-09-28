@@ -14,10 +14,21 @@
     </div>
 
     <div class="stats-grid">
+        <a class="stat-card" href="{{ route('admin.bookings.index') }}"><span>Booking</span><strong>{{ $bookingCount }}</strong><small>{{ $pendingBookingCount }} booking mới chờ xử lý</small></a>
         <a class="stat-card" href="{{ route('admin.projects.index') }}"><span>Dự án đã chụp</span><strong>{{ $projectCount }}</strong><small>Quản lý portfolio</small></a>
-        <a class="stat-card" href="{{ route('admin.categories.index') }}"><span>Danh mục</span><strong>{{ $categoryCount }}</strong><small>Phân loại bộ ảnh</small></a>
         <a class="stat-card" href="{{ route('admin.posts.index') }}"><span>Bài viết</span><strong>{{ $postCount }}</strong><small>Nhật ký và câu chuyện</small></a>
     </div>
+
+    <section class="content-section">
+        <div class="section-heading"><div><p class="eyebrow">Đặt lịch</p><h2>Booking gần đây</h2></div><a href="{{ route('admin.bookings.index') }}">Xem tất cả →</a></div>
+        @if ($recentBookings->isEmpty())
+            <div class="empty-state">Chưa có booking nào.</div>
+        @else
+            <div class="table-wrap"><table><thead><tr><th>Khách hàng</th><th>Gói chụp</th><th>Ngày chụp</th><th>Trạng thái</th></tr></thead><tbody>
+                @foreach ($recentBookings as $booking)<tr><td><strong>{{ $booking->name }}</strong><small>{{ $booking->email }}</small></td><td>{{ $booking->package }}</td><td>{{ $booking->booking_date->format('d/m/Y') }}</td><td><span class="status status--{{ $booking->status }}">{{ ['pending' => 'Chờ xử lý', 'confirmed' => 'Đã xác nhận', 'completed' => 'Hoàn tất', 'cancelled' => 'Đã hủy'][$booking->status] }}</span></td></tr>@endforeach
+            </tbody></table></div>
+        @endif
+    </section>
 
     <section class="content-section">
         <div class="section-heading"><div><p class="eyebrow">Gần đây</p><h2>Dự án mới nhất</h2></div><a href="{{ route('admin.projects.index') }}">Xem tất cả →</a></div>

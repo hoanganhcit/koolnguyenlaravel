@@ -13,7 +13,7 @@ class PostController extends Controller
 {
     public function index()
     {
-        return view('admin.posts.index', ['posts' => Post::with('category')->latest()->get()]);
+        return view('admin.posts.index', ['posts' => Post::with('category')->latest()->paginate(10)]);
     }
 
     public function create()

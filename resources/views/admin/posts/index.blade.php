@@ -23,7 +23,7 @@
             <tbody>
                 @forelse($posts as $post)
                     <tr>
-                        <td style="width: 50%;"><strong>{{ $post->title }}</strong><small>{{ $post->excerpt ?: 'Chưa có đoạn dẫn' }}</small>
+                        <td style="width: 50%;"><strong>{{ $post->title }}</strong><small>{{ $post->excerpt ? \Illuminate\Support\Str::limit($post->excerpt, 80) : 'Chưa có đoạn dẫn' }}</small>
                         </td>
                         <td>{{ optional($post->category)->name ?: 'Chưa phân loại' }}</td>
                         <td>{{ optional($post->published_at)->format('d/m/Y') ?: '—' }}</td>
@@ -46,4 +46,5 @@
             </tbody>
         </table>
     </div>
+    {{ $posts->links() }}
 @endsection

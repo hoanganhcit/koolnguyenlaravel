@@ -3,11 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PostCategoryController;
 use App\Http\Controllers\Admin\PostController;
 use App\Http\Controllers\Admin\ProjectController;
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\LandingController;
 
 /*
@@ -25,9 +29,12 @@ Route::get('/', [LandingController::class, 'index'])->name('home');
 Route::get('/gallery', [LandingController::class, 'gallery'])->name('gallery');
 Route::get('/about', [LandingController::class, 'about'])->name('about');
 Route::get('/contact', [LandingController::class, 'contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/blog', [LandingController::class, 'blog'])->name('blog');
 Route::get('/blog/{post:slug}', [LandingController::class, 'blogShow'])->name('blog.show');
 Route::post('/blog/{post:slug}/comments', [CommentController::class, 'store'])->name('blog.comments.store');
+Route::post('/blog/{post:slug}/like', [LikeController::class, 'store'])->name('blog.likes.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
@@ -65,6 +72,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.edit');
     Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
     Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
+    Route::get('/comments', [CommentController::class, 'index'])->name('comments.index');
+    Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
+
+    Route::get('/bookings', [AdminBookingController::class, 'index'])->name('bookings.index');
+    Route::put('/bookings/{booking}', [AdminBookingController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{booking}', [AdminBookingController::class, 'destroy'])->name('bookings.destroy');
 
     Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 });

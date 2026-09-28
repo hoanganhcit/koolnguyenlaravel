@@ -19,7 +19,12 @@
                         frame — You change these events.</p>
                 </div>
                 <div class="col-lg-8">
-                    <form id="contact-form" data-toggle="validator">
+                    <form id="contact-form" method="POST" action="{{ route('contact.store') }}"
+                        data-contact-form>
+                        @csrf
+                        <div class="flash flash--success mb-4rem" data-contact-success
+                            @if (!session('success')) hidden @endif>{{ session('success') }}</div>
+                        <div class="flash flash--error mb-4rem" data-contact-error hidden></div>
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group">
@@ -61,7 +66,6 @@
                                 </div>
                                 <div class="btn-block">
                                     <button type="submit" class="btn">Send Message</button>
-                                    <div id="validator-contact" class="hidden"></div>
                                 </div>
                             </div>
                         </div>
@@ -79,5 +83,28 @@
         .section-newsletter {
             display: none;
         }
+
+        .flash {
+            margin-bottom: 20px;
+            padding: 14px 20px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .flash--success {
+            background: rgba(40, 167, 69, .12);
+            border: 1px solid rgba(40, 167, 69, .35);
+            color: #2f9e51;
+        }
+
+        .flash--error {
+            background: rgba(220, 53, 69, .12);
+            border: 1px solid rgba(220, 53, 69, .35);
+            color: #dc3545;
+        }
     </style>
+@endpush
+
+@push('scripts')
+    <script src="{{ asset('public/FE/js/contact.js') }}"></script>
 @endpush

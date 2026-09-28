@@ -47,4 +47,5 @@
             </tbody>
         </table>
     </div>
+    {{ $projects->links() }}
 @endsection

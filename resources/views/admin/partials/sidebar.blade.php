@@ -6,6 +6,8 @@
     <nav class="sidebar__nav">
         <a class="{{ request()->routeIs('admin.dashboard') ? 'is-active' : '' }}"
             href="{{ route('admin.dashboard') }}"><i>⌂</i>Tổng quan</a>
+        <a class="{{ request()->routeIs('admin.bookings.*') ? 'is-active' : '' }}"
+            href="{{ route('admin.bookings.index') }}"><i>◷</i><span>Booking</span>@if ($pendingBookingCount > 0)<span class=" sidebar__badge">{{ $pendingBookingCount }}</span>@endif</a>
         <a class="{{ request()->routeIs('admin.categories.*') ? 'is-active' : '' }}"
             href="{{ route('admin.categories.index') }}"><i>◫</i>Danh mục chụp hình</a>
         <a class="{{ request()->routeIs('admin.projects.*') ? 'is-active' : '' }}"
@@ -14,6 +16,8 @@
             href="{{ route('admin.post-categories.index') }}"><i>◪</i>Danh mục bài viết</a>
         <a class="{{ request()->routeIs('admin.posts.*') ? 'is-active' : '' }}"
             href="{{ route('admin.posts.index') }}"><i>✎</i>Quản lý bài viết</a>
+        <a class="{{ request()->routeIs('admin.comments.*') ? 'is-active' : '' }}"
+            href="{{ route('admin.comments.index') }}"><i>◌</i>Bình luận</a>
     </nav>
     <div class="sidebar__footer"><a href="{{ url('/') }}" target="_blank">Xem website ↗</a>
         <form method="POST" action="{{ route('admin.logout') }}">@csrf<button type="submit">Đăng xuất</button></form>

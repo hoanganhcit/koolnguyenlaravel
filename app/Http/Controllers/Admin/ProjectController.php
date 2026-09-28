@@ -14,7 +14,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        return view('admin.projects.index', ['projects' => Project::with('category')->latest()->get()]);
+        return view('admin.projects.index', ['projects' => Project::with('category')->latest()->paginate(10)]);
     }
 
     public function create()

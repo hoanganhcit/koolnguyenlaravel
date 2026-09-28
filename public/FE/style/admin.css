@@ -112,6 +112,23 @@ a {
     width: 20px
 }
 
+.sidebar__nav a span {
+    flex: 1
+}
+
+.sidebar__badge {
+    align-items: center;
+    background: #f05b5b;
+    border-radius: 999px;
+    color: #fff;
+    display: inline-flex;
+    font-size: 10px;
+    height: 20px;
+    justify-content: center;
+    max-width: 20px;
+    padding: 0 6px;
+}
+
 .sidebar__footer {
     border-top: 1px solid #35413c;
     display: grid;
@@ -520,6 +537,37 @@ td small {
     font-size: 12px
 }
 
+.pagination {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 0;
+}
+
+.pagination li a,
+.pagination li span {
+    align-items: center;
+    border: 1px solid var(--line);
+    display: inline-flex;
+    font-size: 12px;
+    height: 34px;
+    justify-content: center;
+    min-width: 34px;
+    padding: 0 10px;
+}
+
+.pagination li.active span {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #fff;
+}
+
+.pagination li.disabled span {
+    color: var(--muted);
+    opacity: .55;
+}
 @media(max-width: 760px) {
     .sidebar {
         flex-basis:65px;
@@ -536,6 +584,10 @@ td small {
 
     .sidebar__nav a {
         justify-content: center
+    }
+
+    .sidebar__nav a span {
+        display: none
     }
 
     .sidebar__nav i {
