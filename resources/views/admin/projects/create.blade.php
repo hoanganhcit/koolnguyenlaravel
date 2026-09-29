@@ -22,11 +22,11 @@
                     value="{{ old('shot_at') }}"></div>
             <div class="field"><label for="status">Trạng thái</label><select id="status" name="status">
                     <option value="draft">Bản nháp</option>
-                    <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Đã xuất bản</option>
+                    <option selected value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Đã xuất bản</option>
                 </select></div>
             <div class="field field--full"><label for="images">Ảnh dự án</label>
                 <input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                <small class="field-help">Có thể chọn nhiều ảnh. Mỗi ảnh tối đa 10 MB.</small>
+                <small class="field-help">Có thể chọn nhiều ảnh. Mỗi ảnh tối đa 20 MB.</small>
                 <div id="image-preview" class="image-preview" aria-live="polite"></div>
             </div>
             <div class="field field--full"><label for="excerpt">Mô tả ngắn</label>

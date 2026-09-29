@@ -30,7 +30,7 @@ class CategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:120', 'description' => 'nullable|string|max:1000',
-            'price' => 'nullable|numeric|min:0', 'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'price' => 'nullable|numeric|min:0', 'image' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:20480',
             'features' => 'nullable|string|max:3000',
         ]);
         $data['slug'] = Str::slug($data['name']);
@@ -47,7 +47,7 @@ class CategoryController extends Controller
             'name' => ['required', 'string', 'max:120'],
             'description' => ['nullable', 'string', 'max:1000'],
             'price' => ['nullable', 'numeric', 'min:0'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:5120'],
+            'image' => ['nullable', 'image', 'mimes:jpeg,jpg,png,webp', 'max:20480'],
             'features' => ['nullable', 'string', 'max:3000'],
             'remove_image' => ['nullable', 'boolean'],
         ]);

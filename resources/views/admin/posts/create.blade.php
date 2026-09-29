@@ -15,7 +15,7 @@
                     value="{{ old('title') }}" required autofocus></div>
             <div class="field field--full"><label for="image">Ảnh đại diện</label>
                 <input id="image" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-                <small class="field-help">Ảnh hiển thị đại diện cho bài viết trên trang blog. Tối đa 10 MB.</small>
+                <small class="field-help">Ảnh hiển thị đại diện cho bài viết trên trang blog. Tối đa 20 MB.</small>
                 <div id="image-preview" class="image-preview" aria-live="polite"></div>
             </div>
             <div class="field"><label for="post_category_id">Danh mục</label><select id="post_category_id"

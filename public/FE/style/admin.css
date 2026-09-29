@@ -491,6 +491,7 @@ td small {
     max-width: 100%;
 }
 .form-grid {
+    align-items: start;
     display: grid;
     gap: 20px;
     grid-template-columns: 1fr 1fr

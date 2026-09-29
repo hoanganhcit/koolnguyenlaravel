@@ -35,7 +35,7 @@ class ProjectController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:180', 'category_id' => 'nullable|exists:categories,id',
             'excerpt' => 'nullable|string|max:1000', 'status' => 'required|in:draft,published', 'shot_at' => 'nullable|date',
-            'images' => 'nullable|array', 'images.*' => 'image|mimes:jpeg,jpg,png,webp,gif|max:10240',
+            'images' => 'nullable|array', 'images.*' => 'image|mimes:jpeg,jpg,png,webp,gif|max:20480',
         ]);
         $data['slug'] = Str::slug($data['title']);
         $data['images'] = collect($request->file('images', []))
@@ -51,7 +51,7 @@ class ProjectController extends Controller
         $data = $request->validate([
             'title' => 'required|string|max:180', 'category_id' => 'nullable|exists:categories,id',
             'excerpt' => 'nullable|string|max:1000', 'status' => 'required|in:draft,published', 'shot_at' => 'nullable|date',
-            'images' => 'nullable|array', 'images.*' => 'image|mimes:jpeg,jpg,png,webp,gif|max:10240',
+            'images' => 'nullable|array', 'images.*' => 'image|mimes:jpeg,jpg,png,webp,gif|max:20480',
             'remove_images' => 'nullable|array', 'remove_images.*' => 'string',
         ]);
         $slug = Str::slug($data['title']);

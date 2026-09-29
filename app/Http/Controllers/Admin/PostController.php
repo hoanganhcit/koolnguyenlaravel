@@ -35,7 +35,7 @@ class PostController extends Controller
             'post_category_id' => 'nullable|exists:post_categories,id',
             'title' => 'required|string|max:180', 'excerpt' => 'nullable|string|max:1000',
             'content' => 'nullable|string', 'status' => 'required|in:draft,published',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:10240',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:20480',
         ]);
         $data['slug'] = Str::slug($data['title']);
         $data['published_at'] = $data['status'] === 'published' ? now() : null;
@@ -52,7 +52,7 @@ class PostController extends Controller
             'post_category_id' => 'nullable|exists:post_categories,id',
             'title' => 'required|string|max:180', 'excerpt' => 'nullable|string|max:1000',
             'content' => 'nullable|string', 'status' => 'required|in:draft,published',
-            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:10240',
+            'image' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:20480',
             'remove_image' => 'nullable|boolean',
         ]);
         $data['slug'] = Str::slug($data['title']);
@@ -91,7 +91,7 @@ class PostController extends Controller
     public function uploadContentImage(Request $request)
     {
         $request->validate([
-            'file' => 'required|image|mimes:jpeg,jpg,png,webp,gif|max:10240',
+            'file' => 'required|image|mimes:jpeg,jpg,png,webp,gif|max:20480',
         ]);
 
         $path = $request->file('file')->store('posts/content', 'public');

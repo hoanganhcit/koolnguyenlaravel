@@ -41,7 +41,7 @@
             </div>
             <div class="field field--full"><label for="images">Thêm ảnh mới</label>
                 <input id="images" name="images[]" type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple>
-                <small class="field-help">Có thể chọn nhiều ảnh. Mỗi ảnh tối đa 10 MB.</small>
+                <small class="field-help">Có thể chọn nhiều ảnh. Mỗi ảnh tối đa 20 MB.</small>
                 <div id="image-preview" class="image-preview" aria-live="polite"></div>
             </div>
             <div class="field field--full"><label for="excerpt">Mô tả ngắn</label>

@@ -21,7 +21,7 @@ class SettingsController extends Controller
     {
         $data = $request->validate([
             'site_title' => 'required|string|max:120',
-            'logo' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:5120',
+            'logo' => 'nullable|image|mimes:jpeg,jpg,png,webp,gif|max:20480',
         ]);
 
         DB::table('site_settings')->updateOrInsert(
