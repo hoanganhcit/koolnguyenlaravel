@@ -1,9 +1,13 @@
  <!-- Header -->
  <nav class="navbar animated slideInDown">
      <div class="navbar-left">
-         <a href="{{ url('/') }}" class="navbar-brand" title="Kool Nguyen – Photography / Visual stories">
-             <span class="brand-name">Kool Nguyen</span>
-             <span class="brand-tagline">Photography / Visual stories</span>
+         <a href="{{ url('/') }}" class="navbar-brand" title="{{ $siteSettings['site_title'] ?? 'Kool Nguyen' }} – Photography / Visual stories">
+             @if (!empty($siteSettings['site_logo']))
+                 <img src="{{ asset('public/storage/' . $siteSettings['site_logo']) }}" alt="{{ $siteSettings['site_title'] ?? 'Kool Nguyen' }}" style="max-height: 42px; max-width: 180px; object-fit: contain;">
+             @else
+                <span class="brand-name">{{ $siteSettings['site_title'] ?? 'Kool Nguyen' }}</span>
+                <span class="brand-tagline">Photography / Visual stories</span>
+             @endif
          </a>
      </div>
      <div id="open-overlay-nav" class="hamburger">

@@ -31,5 +31,17 @@ class AppServiceProvider extends ServiceProvider
         View::composer('admin.partials.sidebar', function ($view) {
             $view->with('pendingBookingCount', Booking::where('status', 'pending')->count());
         });
+
+        View::composer(['FE.layouts.app', 'admin.layouts.app', 'admin.partials.sidebar'], function ($view) {
+            static $siteSettings;
+
+            if ($siteSettings === null) {
+                $siteSettings = Schema::hasTable('site_settings')
+                    ? \Illuminate\Support\Facades\DB::table('site_settings')->pluck('value', 'key')
+                    : collect();
+            }
+
+            $view->with('siteSettings', $siteSettings);
+        });
     }
 }

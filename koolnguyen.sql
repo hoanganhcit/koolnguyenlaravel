@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th9 28, 2026 lúc 11:25 AM
+-- Thời gian đã tạo: Th9 29, 2026 lúc 05:23 AM
 -- Phiên bản máy phục vụ: 10.1.34-MariaDB
 -- Phiên bản PHP: 7.2.8
 
@@ -155,7 +155,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (14, '2026_09_28_000010_create_bookings_table', 8),
 (15, '2026_09_28_000011_add_price_to_bookings_table', 9),
 (16, '2026_09_28_000012_add_category_to_bookings_and_price_to_categories', 10),
-(17, '2026_09_28_000013_add_media_and_features_to_categories', 11);
+(17, '2026_09_28_000013_add_media_and_features_to_categories', 11),
+(18, '2026_09_29_000014_create_site_settings_table', 12);
 
 -- --------------------------------------------------------
 
@@ -261,6 +262,28 @@ INSERT INTO `projects` (`id`, `category_id`, `title`, `slug`, `excerpt`, `images
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `site_settings`
+--
+
+CREATE TABLE `site_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `key` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` text COLLATE utf8mb4_unicode_ci,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `site_settings`
+--
+
+INSERT INTO `site_settings` (`id`, `key`, `value`, `created_at`, `updated_at`) VALUES
+(1, 'site_title', 'Kool Nguyen', NULL, '2026-09-28 19:40:33'),
+(2, 'site_logo', '', NULL, '2026-09-28 19:40:33');
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `users`
 --
 
@@ -349,6 +372,13 @@ ALTER TABLE `projects`
   ADD UNIQUE KEY `projects_slug_unique` (`slug`);
 
 --
+-- Chỉ mục cho bảng `site_settings`
+--
+ALTER TABLE `site_settings`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `site_settings_key_unique` (`key`);
+
+--
 -- Chỉ mục cho bảng `users`
 --
 ALTER TABLE `users`
@@ -387,7 +417,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT cho bảng `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT cho bảng `posts`
@@ -406,6 +436,12 @@ ALTER TABLE `post_categories`
 --
 ALTER TABLE `projects`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT cho bảng `site_settings`
+--
+ALTER TABLE `site_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT cho bảng `users`

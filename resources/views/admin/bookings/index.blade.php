@@ -10,27 +10,33 @@
         </div>
     </div>
 
-    <div class="stats-grid booking-stats">
-        <div class="stat-card"><span>Đang chờ</span><strong>{{ $pendingCount }}</strong><small>Booking cần xử lý</small></div>
-        <div class="stat-card"><span>Hoàn tất</span><strong>{{ $completedCount }}</strong><small>Booking đã hoàn thành</small></div>
-        <div class="stat-card"><span>Đã hủy</span><strong>{{ $cancelledCount }}</strong><small>Booking đã hủy</small></div>
-        <div class="stat-card"><span>Doanh thu</span><strong>${{ number_format($revenue, 2) }}</strong><small>Chỉ tính booking hoàn tất</small></div>
-    </div>
+    <nav class="booking-tabs" aria-label="Booking views">
+        <a href="{{ route('admin.bookings.index', ['tab' => 'management']) }}" class="{{ $activeTab === 'management' ? 'is-active' : '' }}" @if ($activeTab === 'management') aria-current="page" @endif>Quản lý booking</a>
+        <a href="{{ route('admin.bookings.index', ['tab' => 'analytics']) }}" class="{{ $activeTab === 'analytics' ? 'is-active' : '' }}" @if ($activeTab === 'analytics') aria-current="page" @endif>Analytics</a>
+    </nav>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
-                <tr>
-                    <th>Khách hàng</th>
-                    <th>Danh mục / Giá</th>
-                    <th>Ngày chụp</th>
-                    <th>Liên hệ</th>
-                    <th>Trạng thái</th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($bookings as $booking)
+    @if ($activeTab === 'management')
+        <div class="stats-grid booking-stats">
+            <div class="stat-card"><span>Đang chờ</span><strong>{{ $pendingCount }}</strong><small>Booking cần xử lý</small></div>
+            <div class="stat-card"><span>Hoàn tất</span><strong>{{ $completedCount }}</strong><small>Booking đã hoàn thành</small></div>
+            <div class="stat-card"><span>Đã hủy</span><strong>{{ $cancelledCount }}</strong><small>Booking đã hủy</small></div>
+            <div class="stat-card"><span>Doanh thu</span><strong>${{ number_format($revenue, 2) }}</strong><small>Chỉ tính booking hoàn tất</small></div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Khách hàng</th>
+                        <th>Danh mục / Giá</th>
+                        <th>Ngày chụp</th>
+                        <th>Liên hệ</th>
+                        <th>Trạng thái</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($bookings as $booking)
                     <tr>
                         <td>
                             <strong>{{ $booking->name }}</strong>
@@ -69,16 +75,62 @@
                             </form>
                         </td>
                     </tr>
-                @empty
+                    @empty
                     <tr>
                         <td colspan="6">
                             <div class="empty-state">Chưa có booking nào.</div>
                         </td>
                     </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
 
-    {{ $bookings->links() }}
+        {{ $bookings->links() }}
+    @else
+        <form class="analytics-filters" method="GET" action="{{ route('admin.bookings.index') }}">
+            <input type="hidden" name="tab" value="analytics">
+            <div class="field">
+                <label for="analytics-from">Từ ngày</label>
+                <input id="analytics-from" type="date" name="from" value="{{ $analyticsFrom }}" required>
+            </div>
+            <div class="field">
+                <label for="analytics-to">Đến ngày</label>
+                <input id="analytics-to" type="date" name="to" value="{{ $analyticsTo }}" required>
+            </div>
+            <div class="field">
+                <label for="analytics-group">Nhóm doanh thu</label>
+                <select id="analytics-group" name="group">
+                    <option value="month" {{ $analyticsGroup === 'month' ? 'selected' : '' }}>Theo tháng</option>
+                    <option value="day" {{ $analyticsGroup === 'day' ? 'selected' : '' }}>Theo ngày</option>
+                </select>
+            </div>
+            <button class="button button--primary" type="submit">Xem báo cáo</button>
+        </form>
+
+        <div class="stats-grid analytics-stats">
+            <div class="stat-card"><span>Doanh thu</span><strong>${{ number_format($analyticsRevenue, 2) }}</strong><small>Booking đã hoàn tất trong khoảng ngày đã chọn</small></div>
+            <div class="stat-card"><span>Booking hoàn tất</span><strong>{{ $analyticsRows->sum('count') }}</strong><small>{{ $analyticsFrom }} đến {{ $analyticsTo }}</small></div>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr><th>{{ $analyticsGroup === 'day' ? 'Ngày' : 'Tháng' }}</th><th>Số booking</th><th>Doanh thu</th><th>So sánh</th></tr>
+                </thead>
+                <tbody>
+                    @forelse ($analyticsRows as $row)
+                        <tr>
+                            <td><strong>{{ $row['label'] }}</strong></td>
+                            <td>{{ $row['count'] }}</td>
+                            <td><strong>${{ number_format($row['revenue'], 2) }}</strong></td>
+                            <td><div class="analytics-bar"><span style="width: {{ $analyticsMaxRevenue > 0 ? ($row['revenue'] / $analyticsMaxRevenue) * 100 : 0 }}%"></span></div></td>
+                        </tr>
+                    @empty
+                        <tr><td colspan="4"><div class="empty-state">Không có booking hoàn tất trong khoảng thời gian này.</div></td></tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    @endif
 @endsection

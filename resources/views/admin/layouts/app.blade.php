@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('title', 'Admin') | Kool Nguyen</title>
+    <title>@yield('title', 'Admin') | {{ $siteSettings['site_title'] ?? 'Kool Nguyen' }}</title>
     <!-- Favicons -->
 	<link rel="apple-touch-icon" sizes="144x144" href="{{ asset('public/FE/images/favicons/apple-touch-icon-144x144.png') }}">
 	<link rel="apple-touch-icon" sizes="114x114" href="{{ asset('public/FE/images/favicons/apple-touch-icon-114x114.png') }}">
@@ -11,7 +11,7 @@
 	<link rel="apple-touch-icon" sizes="57x57" href="{{ asset('public/FE/images/favicons/apple-touch-icon-57x57.png') }}">
 	<link rel="shortcut icon" href="{{ asset('public/FE/images/favicons/favicon.png') }}" type="image/png">
 
-    <link rel="stylesheet" href="{{ asset('public/FE/style/admin.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/FE/style/admin.css') }}?v={{ filemtime(public_path('FE/style/admin.css')) }}">
     @stack('styles')
 </head>
 <body class="admin-shell">

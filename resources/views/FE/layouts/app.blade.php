@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>@yield('title', 'Kool Nguyen - Photography / Visual stories')</title>
+    <title>{{ str_replace('Kool Nguyen', $siteSettings['site_title'] ?? 'Kool Nguyen', trim($__env->yieldContent('title', 'Kool Nguyen - Photography / Visual stories'))) }}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="author" content="Kool Nguyen" />
+    <meta name="author" content="{{ $siteSettings['site_title'] ?? 'Kool Nguyen' }}" />
     <meta name="keywords" content="@yield('keywords', '')" />
     <meta name="description" content="@yield('description', '')" />
     <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('public/FE/images/favicons/apple-touch-icon-144x144.png') }}">
@@ -20,7 +20,7 @@
 <body>
     <div class="loading animated">
         <div class="loading-wrap animated bounceInLeft">
-            <span class="logotype animated infinite bounceIn">Kool Nguyen</span>
+            <span class="logotype animated infinite bounceIn">{{ $siteSettings['site_title'] ?? 'Kool Nguyen' }}</span>
             <span class="loading-tagline">Photography / Visual stories</span>
         </div>
     </div>
