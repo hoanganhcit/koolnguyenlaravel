@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Hero -->
-    <header class="hero jarallax" data-image="{{ asset('public/FE/img/hero-image6.jpg') }}">
+    <header class="hero jarallax" data-image="{{ asset('public/FE/img/hero-image6.png') }}">
         <div class="container">
             <div class="hero__caption" data-start="opacity:1; transform[swing]:translateY(0px)"
                 data-500-start="opacity:0; transform[swing]:translateY(-100px)">
